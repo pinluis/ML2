@@ -8,13 +8,14 @@ echo 'alias ll="ls -alF"' >> $HOME/.bashrc
 echo 'alias la="ls -A"' >> $HOME/.bashrc
 echo 'alias l="ls -CF"' >> $HOME/.bashrc
 
-# Install pip-tools
-pip install pip-tools
+# Convenience workspace directory for later use
+WORKSPACE_DIR=$(pwd)
 
-# Create requirements.txt from requirements.in
-pip-compile
+# Change some Poetry settings to better deal with working in a container
+poetry config cache-dir ${WORKSPACE_DIR}/.cache
+poetry config virtualenvs.in-project true
 
-# Install requirements.txt
-pip install -r requirements.txt
+# Now install all dependencies
+poetry install
 
 echo "Done!"
